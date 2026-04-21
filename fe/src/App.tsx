@@ -3,8 +3,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import Login from "./pages/Login.tsx";
 import Index from "./pages/Index.tsx";
+import Configure from "./pages/Configure.tsx";
+import Scrape from "./pages/Scrape.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -16,9 +17,9 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/chat" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/" element={<Index />} />
+          <Route path="/configure" element={<Configure />} />
+          <Route path="/scrape" element={<Scrape />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
