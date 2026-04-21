@@ -76,8 +76,6 @@ async function fetchNode(
 
   const text = await res.text();
 
-  console.log("RAW RESPONSE:", JSON.stringify(text.slice(0, 500)));
-
   // multipart response — find first JSON object after a Content-Type header
   const match = text.match(
     /Content-Type:\s*application\/json[^\r\n]*\r?\n\r?\n(\{.+?\})(?=\r?\n---|\r?\n$)/s,
@@ -186,20 +184,28 @@ export default function Scrape() {
   }, [log]);
 
   async function insertBatch(persons: Person[], skipExisting: boolean) {
+    // Deduplicate within the batch first
+    const seen = new Set<string>();
+    const unique = persons.filter((p) => {
+      if (seen.has(p.aad_object_id)) return false;
+      seen.add(p.aad_object_id);
+      return true;
+    });
+
     if (skipExisting) {
       const { data: existing } = await supabase
         .from("persons")
         .select("aad_object_id")
         .in(
           "aad_object_id",
-          persons.map((p) => p.aad_object_id),
+          unique.map((p) => p.aad_object_id),
         );
 
       const existingIds = new Set(
         (existing ?? []).map((r: { aad_object_id: string }) => r.aad_object_id),
       );
-      const toInsert = persons.filter((p) => !existingIds.has(p.aad_object_id));
-      const skippedCount = persons.length - toInsert.length;
+      const toInsert = unique.filter((p) => !existingIds.has(p.aad_object_id));
+      const skippedCount = unique.length - toInsert.length;
 
       if (toInsert.length > 0) {
         const { error } = await supabase.from("persons").insert(toInsert);
@@ -212,12 +218,9 @@ export default function Scrape() {
 
     const { error } = await supabase
       .from("persons")
-      .upsert(persons, {
-        onConflict: "aad_object_id",
-        ignoreDuplicates: false,
-      });
+      .upsert(unique, { onConflict: "aad_object_id", ignoreDuplicates: true });
     if (error) throw error;
-    setInserted((prev) => prev + persons.length);
+    setInserted((prev) => prev + unique.length);
   }
 
   async function startScrape() {
@@ -297,6 +300,7 @@ export default function Scrape() {
       } catch (e) {
         setErrors((prev) => prev + 1);
         addLog(`Error fetching ${id}: ${(e as Error).message}`);
+        console.error("Fetch error", id, e);
       }
     }
 
