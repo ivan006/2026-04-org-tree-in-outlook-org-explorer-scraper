@@ -76,11 +76,14 @@ async function fetchNode(
 
   const text = await res.text();
 
-  // multipart response — grab first JSON chunk
-  const firstChunk = text.split("---")[1];
-  if (!firstChunk) throw new Error("Unexpected response format");
-  const jsonStr = firstChunk.replace(/^Content-Type:[^\n]+\n\n/, "").trim();
-  return JSON.parse(jsonStr);
+  console.log("RAW RESPONSE:", JSON.stringify(text.slice(0, 500)));
+
+  // multipart response — find first JSON object after a Content-Type header
+  const match = text.match(
+    /Content-Type:\s*application\/json[^\r\n]*\r?\n\r?\n(\{.+?\})(?=\r?\n---|\r?\n$)/s,
+  );
+  if (!match) throw new Error("Could not find JSON in multipart response");
+  return JSON.parse(match[1]);
 }
 
 function extractPersons(
@@ -136,7 +139,10 @@ function extractPersons(
       direct_reports_count: (node.directReportsCount as number) ?? 0,
     });
 
-    // Queue children for deeper recursion
+    // Always queue level-1 directs — directReportsCount is unreliable due to permissions
+    childIds.push(node.aadObjectId as string);
+
+    // Also queue any level-2 nodes we already received
     const subDirects =
       ((node.directs as Record<string, unknown>)?.edges as Record<
         string,
@@ -144,14 +150,9 @@ function extractPersons(
       >[]) ?? [];
     for (const subEdge of subDirects) {
       const subNode = subEdge.node as Record<string, unknown>;
-      if (subNode?.aadObjectId && (subNode.directReportsCount as number) > 0) {
+      if (subNode?.aadObjectId) {
         childIds.push(subNode.aadObjectId as string);
       }
-    }
-
-    // Also queue level-1 nodes that have directs
-    if ((node.directReportsCount as number) > 0) {
-      childIds.push(node.aadObjectId as string);
     }
   }
 
