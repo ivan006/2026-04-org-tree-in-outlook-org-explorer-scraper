@@ -1,0 +1,1495 @@
+[
+  {
+    "type": "custom",
+    "name": "list_tables",
+    "description": "Lists all available tables in the database.",
+    "input_schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {},
+      "required": []
+    }
+  },
+  {
+    "type": "custom",
+    "name": "query_agencies",
+    "description": "Fetches records from agencies.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "filters": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "logo_url": {
+              "type": "string"
+            },
+            "primary_color": {
+              "type": "string"
+            },
+            "accent_color": {
+              "type": "string"
+            },
+            "theme_mode": {
+              "type": "string"
+            },
+            "secondary_color": {
+              "type": "string"
+            },
+            "email_from_name": {
+              "type": "string"
+            },
+            "email_from_address": {
+              "type": "string"
+            }
+          },
+          "required": []
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "type": "custom",
+    "name": "update_agencies",
+    "description": "Updates a record in agencies by id.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Record ID — must be a valid UUID from a prior query, never invented."
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "logo_url": {
+              "type": "string"
+            },
+            "primary_color": {
+              "type": "string"
+            },
+            "accent_color": {
+              "type": "string"
+            },
+            "theme_mode": {
+              "type": "string"
+            },
+            "secondary_color": {
+              "type": "string"
+            },
+            "email_from_name": {
+              "type": "string"
+            },
+            "email_from_address": {
+              "type": "string"
+            }
+          },
+          "required": []
+        }
+      },
+      "required": [
+        "id",
+        "data"
+      ]
+    }
+  },
+  {
+    "type": "custom",
+    "name": "query_agents",
+    "description": "Fetches records from agents. Related: agency_id → agencies.id.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "filters": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string"
+            },
+            "agency_id": {
+              "type": "string",
+              "description": "→ agencies.id"
+            },
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "phone": {
+              "type": "string"
+            },
+            "role": {
+              "type": "string",
+              "enum": [
+                "admin",
+                "agent"
+              ]
+            }
+          },
+          "required": []
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "type": "custom",
+    "name": "create_agents",
+    "description": "Creates a new record in agents.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string"
+            },
+            "agency_id": {
+              "type": "string",
+              "description": "→ agencies.id"
+            },
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "phone": {
+              "type": "string"
+            },
+            "role": {
+              "type": "string",
+              "enum": [
+                "admin",
+                "agent"
+              ]
+            }
+          },
+          "required": [
+            "user_id",
+            "agency_id",
+            "name",
+            "email"
+          ]
+        }
+      },
+      "required": [
+        "data"
+      ]
+    }
+  },
+  {
+    "type": "custom",
+    "name": "update_agents",
+    "description": "Updates a record in agents by id.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Record ID — must be a valid UUID from a prior query, never invented."
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string"
+            },
+            "agency_id": {
+              "type": "string",
+              "description": "→ agencies.id"
+            },
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "phone": {
+              "type": "string"
+            },
+            "role": {
+              "type": "string",
+              "enum": [
+                "admin",
+                "agent"
+              ]
+            }
+          },
+          "required": []
+        }
+      },
+      "required": [
+        "id",
+        "data"
+      ]
+    }
+  },
+  {
+    "type": "custom",
+    "name": "delete_agents",
+    "description": "Deletes a record from agents by id.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Record ID — must be a valid UUID from a prior query, never invented."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "type": "custom",
+    "name": "query_clients",
+    "description": "Fetches records from clients. Related: agency_id → agencies.id.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "filters": {
+          "type": "object",
+          "properties": {
+            "agency_id": {
+              "type": "string",
+              "description": "→ agencies.id"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "STANDARD",
+                "ANALYTICS",
+                "VECTOR"
+              ]
+            },
+            "first_name": {
+              "type": "string"
+            },
+            "last_name": {
+              "type": "string"
+            },
+            "company_name": {
+              "type": "string"
+            },
+            "registration_number": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "phone": {
+              "type": "string"
+            },
+            "id_number": {
+              "type": "string"
+            },
+            "address": {
+              "type": "string"
+            },
+            "tax_number": {
+              "type": "string"
+            },
+            "is_pep": {
+              "type": "boolean"
+            },
+            "popia_consent_given": {
+              "type": "boolean"
+            },
+            "popia_consent_date": {
+              "type": "string"
+            },
+            "risk_level": {
+              "type": "string"
+            }
+          },
+          "required": []
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "type": "custom",
+    "name": "create_clients",
+    "description": "Creates a new record in clients.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "agency_id": {
+              "type": "string",
+              "description": "→ agencies.id"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "STANDARD",
+                "ANALYTICS",
+                "VECTOR"
+              ]
+            },
+            "first_name": {
+              "type": "string"
+            },
+            "last_name": {
+              "type": "string"
+            },
+            "company_name": {
+              "type": "string"
+            },
+            "registration_number": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "phone": {
+              "type": "string"
+            },
+            "id_number": {
+              "type": "string"
+            },
+            "address": {
+              "type": "string"
+            },
+            "tax_number": {
+              "type": "string"
+            },
+            "is_pep": {
+              "type": "boolean"
+            },
+            "popia_consent_given": {
+              "type": "boolean"
+            },
+            "popia_consent_date": {
+              "type": "string"
+            },
+            "risk_level": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "agency_id"
+          ]
+        }
+      },
+      "required": [
+        "data"
+      ]
+    }
+  },
+  {
+    "type": "custom",
+    "name": "update_clients",
+    "description": "Updates a record in clients by id.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Record ID — must be a valid UUID from a prior query, never invented."
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "agency_id": {
+              "type": "string",
+              "description": "→ agencies.id"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "STANDARD",
+                "ANALYTICS",
+                "VECTOR"
+              ]
+            },
+            "first_name": {
+              "type": "string"
+            },
+            "last_name": {
+              "type": "string"
+            },
+            "company_name": {
+              "type": "string"
+            },
+            "registration_number": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "phone": {
+              "type": "string"
+            },
+            "id_number": {
+              "type": "string"
+            },
+            "address": {
+              "type": "string"
+            },
+            "tax_number": {
+              "type": "string"
+            },
+            "is_pep": {
+              "type": "boolean"
+            },
+            "popia_consent_given": {
+              "type": "boolean"
+            },
+            "popia_consent_date": {
+              "type": "string"
+            },
+            "risk_level": {
+              "type": "string"
+            }
+          },
+          "required": []
+        }
+      },
+      "required": [
+        "id",
+        "data"
+      ]
+    }
+  },
+  {
+    "type": "custom",
+    "name": "query_compliance_certificates",
+    "description": "Fetches records from compliance_certificates. Related: deal_id → deals.id, document_id → documents.id.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "filters": {
+          "type": "object",
+          "properties": {
+            "deal_id": {
+              "type": "string",
+              "description": "→ deals.id"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "STANDARD",
+                "ANALYTICS",
+                "VECTOR"
+              ]
+            },
+            "document_id": {
+              "type": "string",
+              "description": "→ documents.id"
+            },
+            "expiry_date": {
+              "type": "string"
+            }
+          },
+          "required": []
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "type": "custom",
+    "name": "create_compliance_certificates",
+    "description": "Creates a new record in compliance_certificates.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "deal_id": {
+              "type": "string",
+              "description": "→ deals.id"
+            },
+            "type": {
+              "type": "string",
+              "enum": [
+                "STANDARD",
+                "ANALYTICS",
+                "VECTOR"
+              ]
+            },
+            "document_id": {
+              "type": "string",
+              "description": "→ documents.id"
+            },
+            "expiry_date": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "deal_id",
+            "type",
+            "expiry_date"
+          ]
+        }
+      },
+      "required": [
+        "data"
+      ]
+    }
+  },
+  {
+    "type": "custom",
+    "name": "query_deal_activity_log",
+    "description": "Fetches records from deal_activity_log. Related: deal_id → deals.id.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "filters": {
+          "type": "object",
+          "properties": {
+            "deal_id": {
+              "type": "string",
+              "description": "→ deals.id"
+            },
+            "event_type": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "actor_name": {
+              "type": "string"
+            },
+            "actor_email": {
+              "type": "string"
+            },
+            "metadata": {
+              "type": "string"
+            }
+          },
+          "required": []
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "type": "custom",
+    "name": "create_deal_activity_log",
+    "description": "Creates a new record in deal_activity_log.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "deal_id": {
+              "type": "string",
+              "description": "→ deals.id"
+            },
+            "event_type": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "actor_name": {
+              "type": "string"
+            },
+            "actor_email": {
+              "type": "string"
+            },
+            "metadata": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "deal_id",
+            "event_type",
+            "description"
+          ]
+        }
+      },
+      "required": [
+        "data"
+      ]
+    }
+  },
+  {
+    "type": "custom",
+    "name": "query_deal_participants",
+    "description": "Fetches records from deal_participants. Related: deal_id → deals.id, client_id → clients.id.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "filters": {
+          "type": "object",
+          "properties": {
+            "deal_id": {
+              "type": "string",
+              "description": "→ deals.id"
+            },
+            "client_id": {
+              "type": "string",
+              "description": "→ clients.id"
+            },
+            "role": {
+              "type": "string",
+              "enum": [
+                "admin",
+                "agent"
+              ]
+            }
+          },
+          "required": []
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "type": "custom",
+    "name": "create_deal_participants",
+    "description": "Creates a new record in deal_participants.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "deal_id": {
+              "type": "string",
+              "description": "→ deals.id"
+            },
+            "client_id": {
+              "type": "string",
+              "description": "→ clients.id"
+            },
+            "role": {
+              "type": "string",
+              "enum": [
+                "admin",
+                "agent"
+              ]
+            }
+          },
+          "required": [
+            "deal_id",
+            "client_id",
+            "role"
+          ]
+        }
+      },
+      "required": [
+        "data"
+      ]
+    }
+  },
+  {
+    "type": "custom",
+    "name": "delete_deal_participants",
+    "description": "Deletes a record from deal_participants by id.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Record ID — must be a valid UUID from a prior query, never invented."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "type": "custom",
+    "name": "query_deals",
+    "description": "Fetches records from deals. Related: agency_id → agencies.id, agent_id → agents.id.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "filters": {
+          "type": "object",
+          "properties": {
+            "agency_id": {
+              "type": "string",
+              "description": "→ agencies.id"
+            },
+            "agent_id": {
+              "type": "string",
+              "description": "→ agents.id"
+            },
+            "deal_type": {
+              "type": "string",
+              "enum": [
+                "sale",
+                "rental"
+              ]
+            },
+            "property_address": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "active",
+                "pending_docs",
+                "ready",
+                "closed",
+                "unconverted"
+              ]
+            },
+            "updated_at": {
+              "type": "string"
+            },
+            "occupation_date": {
+              "type": "string"
+            },
+            "property24_url": {
+              "type": "string"
+            }
+          },
+          "required": []
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "type": "custom",
+    "name": "create_deals",
+    "description": "Creates a new record in deals.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "agency_id": {
+              "type": "string",
+              "description": "→ agencies.id"
+            },
+            "agent_id": {
+              "type": "string",
+              "description": "→ agents.id"
+            },
+            "deal_type": {
+              "type": "string",
+              "enum": [
+                "sale",
+                "rental"
+              ]
+            },
+            "property_address": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "active",
+                "pending_docs",
+                "ready",
+                "closed",
+                "unconverted"
+              ]
+            },
+            "updated_at": {
+              "type": "string"
+            },
+            "occupation_date": {
+              "type": "string"
+            },
+            "property24_url": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "agency_id",
+            "agent_id",
+            "deal_type",
+            "property_address"
+          ]
+        }
+      },
+      "required": [
+        "data"
+      ]
+    }
+  },
+  {
+    "type": "custom",
+    "name": "update_deals",
+    "description": "Updates a record in deals by id.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Record ID — must be a valid UUID from a prior query, never invented."
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "agency_id": {
+              "type": "string",
+              "description": "→ agencies.id"
+            },
+            "agent_id": {
+              "type": "string",
+              "description": "→ agents.id"
+            },
+            "deal_type": {
+              "type": "string",
+              "enum": [
+                "sale",
+                "rental"
+              ]
+            },
+            "property_address": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "active",
+                "pending_docs",
+                "ready",
+                "closed",
+                "unconverted"
+              ]
+            },
+            "updated_at": {
+              "type": "string"
+            },
+            "occupation_date": {
+              "type": "string"
+            },
+            "property24_url": {
+              "type": "string"
+            }
+          },
+          "required": []
+        }
+      },
+      "required": [
+        "id",
+        "data"
+      ]
+    }
+  },
+  {
+    "type": "custom",
+    "name": "query_document_versions",
+    "description": "Fetches records from document_versions. Related: document_id → documents.id.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "filters": {
+          "type": "object",
+          "properties": {
+            "document_id": {
+              "type": "string",
+              "description": "→ documents.id"
+            },
+            "version_number": {
+              "type": "number"
+            },
+            "file_url": {
+              "type": "string"
+            },
+            "created_by": {
+              "type": "string"
+            },
+            "notes": {
+              "type": "string"
+            }
+          },
+          "required": []
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "type": "custom",
+    "name": "create_document_versions",
+    "description": "Creates a new record in document_versions.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "document_id": {
+              "type": "string",
+              "description": "→ documents.id"
+            },
+            "version_number": {
+              "type": "number"
+            },
+            "file_url": {
+              "type": "string"
+            },
+            "created_by": {
+              "type": "string"
+            },
+            "notes": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "document_id",
+            "file_url"
+          ]
+        }
+      },
+      "required": [
+        "data"
+      ]
+    }
+  },
+  {
+    "type": "custom",
+    "name": "update_document_versions",
+    "description": "Updates a record in document_versions by id.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Record ID — must be a valid UUID from a prior query, never invented."
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "document_id": {
+              "type": "string",
+              "description": "→ documents.id"
+            },
+            "version_number": {
+              "type": "number"
+            },
+            "file_url": {
+              "type": "string"
+            },
+            "created_by": {
+              "type": "string"
+            },
+            "notes": {
+              "type": "string"
+            }
+          },
+          "required": []
+        }
+      },
+      "required": [
+        "id",
+        "data"
+      ]
+    }
+  },
+  {
+    "type": "custom",
+    "name": "delete_document_versions",
+    "description": "Deletes a record from document_versions by id.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Record ID — must be a valid UUID from a prior query, never invented."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "type": "custom",
+    "name": "query_documents",
+    "description": "Fetches records from documents. Related: deal_id → deals.id, client_id → clients.id.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "filters": {
+          "type": "object",
+          "properties": {
+            "deal_id": {
+              "type": "string",
+              "description": "→ deals.id"
+            },
+            "client_id": {
+              "type": "string",
+              "description": "→ clients.id"
+            },
+            "tag": {
+              "type": "string"
+            },
+            "file_name": {
+              "type": "string"
+            },
+            "file_url": {
+              "type": "string"
+            },
+            "uploaded_by_agent": {
+              "type": "boolean"
+            },
+            "verified": {
+              "type": "boolean"
+            },
+            "rejected_reason": {
+              "type": "string"
+            },
+            "expiration_date": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "active",
+                "pending_docs",
+                "ready",
+                "closed",
+                "unconverted"
+              ]
+            },
+            "current_version": {
+              "type": "number"
+            },
+            "expiry_date": {
+              "type": "string"
+            }
+          },
+          "required": []
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "type": "custom",
+    "name": "create_documents",
+    "description": "Creates a new record in documents.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "deal_id": {
+              "type": "string",
+              "description": "→ deals.id"
+            },
+            "client_id": {
+              "type": "string",
+              "description": "→ clients.id"
+            },
+            "tag": {
+              "type": "string"
+            },
+            "file_name": {
+              "type": "string"
+            },
+            "file_url": {
+              "type": "string"
+            },
+            "uploaded_by_agent": {
+              "type": "boolean"
+            },
+            "verified": {
+              "type": "boolean"
+            },
+            "rejected_reason": {
+              "type": "string"
+            },
+            "expiration_date": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "active",
+                "pending_docs",
+                "ready",
+                "closed",
+                "unconverted"
+              ]
+            },
+            "current_version": {
+              "type": "number"
+            },
+            "expiry_date": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "deal_id",
+            "tag",
+            "file_name",
+            "file_url"
+          ]
+        }
+      },
+      "required": [
+        "data"
+      ]
+    }
+  },
+  {
+    "type": "custom",
+    "name": "update_documents",
+    "description": "Updates a record in documents by id.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Record ID — must be a valid UUID from a prior query, never invented."
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "deal_id": {
+              "type": "string",
+              "description": "→ deals.id"
+            },
+            "client_id": {
+              "type": "string",
+              "description": "→ clients.id"
+            },
+            "tag": {
+              "type": "string"
+            },
+            "file_name": {
+              "type": "string"
+            },
+            "file_url": {
+              "type": "string"
+            },
+            "uploaded_by_agent": {
+              "type": "boolean"
+            },
+            "verified": {
+              "type": "boolean"
+            },
+            "rejected_reason": {
+              "type": "string"
+            },
+            "expiration_date": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "active",
+                "pending_docs",
+                "ready",
+                "closed",
+                "unconverted"
+              ]
+            },
+            "current_version": {
+              "type": "number"
+            },
+            "expiry_date": {
+              "type": "string"
+            }
+          },
+          "required": []
+        }
+      },
+      "required": [
+        "id",
+        "data"
+      ]
+    }
+  },
+  {
+    "type": "custom",
+    "name": "query_esignature_placements",
+    "description": "Fetches records from esignature_placements. Related: esignature_request_id → esignature_requests.id.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "filters": {
+          "type": "object",
+          "properties": {
+            "esignature_request_id": {
+              "type": "string",
+              "description": "→ esignature_requests.id"
+            },
+            "type": {
+              "type": "string"
+            },
+            "page": {
+              "type": "number"
+            },
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "width": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            },
+            "signature_data_url": {
+              "type": "string"
+            },
+            "signed_at": {
+              "type": "string"
+            }
+          },
+          "required": []
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "type": "custom",
+    "name": "create_esignature_placements",
+    "description": "Creates a new record in esignature_placements.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "esignature_request_id": {
+              "type": "string",
+              "description": "→ esignature_requests.id"
+            },
+            "type": {
+              "type": "string"
+            },
+            "page": {
+              "type": "number"
+            },
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "width": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            },
+            "signature_data_url": {
+              "type": "string"
+            },
+            "signed_at": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "esignature_request_id",
+            "x",
+            "y"
+          ]
+        }
+      },
+      "required": [
+        "data"
+      ]
+    }
+  },
+  {
+    "type": "custom",
+    "name": "update_esignature_placements",
+    "description": "Updates a record in esignature_placements by id.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Record ID — must be a valid UUID from a prior query, never invented."
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "esignature_request_id": {
+              "type": "string",
+              "description": "→ esignature_requests.id"
+            },
+            "type": {
+              "type": "string"
+            },
+            "page": {
+              "type": "number"
+            },
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "width": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            },
+            "signature_data_url": {
+              "type": "string"
+            },
+            "signed_at": {
+              "type": "string"
+            }
+          },
+          "required": []
+        }
+      },
+      "required": [
+        "id",
+        "data"
+      ]
+    }
+  },
+  {
+    "type": "custom",
+    "name": "delete_esignature_placements",
+    "description": "Deletes a record from esignature_placements by id.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Record ID — must be a valid UUID from a prior query, never invented."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  },
+  {
+    "type": "custom",
+    "name": "query_esignature_requests",
+    "description": "Fetches records from esignature_requests. Related: deal_id → deals.id, document_id → documents.id, client_id → clients.id, created_by_agent_id → agents.id.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "filters": {
+          "type": "object",
+          "properties": {
+            "deal_id": {
+              "type": "string",
+              "description": "→ deals.id"
+            },
+            "document_id": {
+              "type": "string",
+              "description": "→ documents.id"
+            },
+            "client_id": {
+              "type": "string",
+              "description": "→ clients.id"
+            }
+          },
+          "required": []
+        }
+      },
+      "required": []
+    }
+  },
+  {
+    "type": "custom",
+    "name": "create_esignature_requests",
+    "description": "Creates a new record in esignature_requests.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "deal_id": {
+              "type": "string",
+              "description": "→ deals.id"
+            },
+            "document_id": {
+              "type": "string",
+              "description": "→ documents.id"
+            },
+            "client_id": {
+              "type": "string",
+              "description": "→ clients.id"
+            }
+          },
+          "required": [
+            "deal_id"
+          ]
+        }
+      },
+      "required": [
+        "data"
+      ]
+    }
+  },
+  {
+    "type": "custom",
+    "name": "update_esignature_requests",
+    "description": "Updates a record in esignature_requests by id.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Record ID — must be a valid UUID from a prior query, never invented."
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "deal_id": {
+              "type": "string",
+              "description": "→ deals.id"
+            },
+            "document_id": {
+              "type": "string",
+              "description": "→ documents.id"
+            },
+            "client_id": {
+              "type": "string",
+              "description": "→ clients.id"
+            }
+          },
+          "required": []
+        }
+      },
+      "required": [
+        "id",
+        "data"
+      ]
+    }
+  },
+  {
+    "type": "custom",
+    "name": "delete_esignature_requests",
+    "description": "Deletes a record from esignature_requests by id.",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Record ID — must be a valid UUID from a prior query, never invented."
+        }
+      },
+      "required": [
+        "id"
+      ]
+    }
+  }
+]
